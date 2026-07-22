@@ -1,5 +1,3 @@
----
----
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,19 +17,27 @@
         body {
             margin: 0;
             min-height: 100vh;
-            display: flex;
+            display: grid;
+            grid-template-rows: 1fr auto;
             justify-content: center;
             align-items: center;
             background: linear-gradient(135deg, #fff8f0, #ffe9d2);
             font-family: system-ui, sans-serif;
             color: #503526;
             text-align: center;
-            overflow: hidden;
+            overflow-x: hidden;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
         .card {
             max-width: 520px;
-            padding: 40px;
+            padding: 20px;
         }
 
         .bacon {
@@ -49,6 +55,17 @@
             line-height: 1.7;
             font-size: 1.15rem;
         }
+        
+        a {
+            color: #A53A2A;
+            text-decoration: none;
+            transition: opacity .2s;
+        }
+
+        a:hover {
+            opacity: .75;
+            text-decoration: underline;
+        }
 
         strong {
             color: #A53A2A;
@@ -56,20 +73,23 @@
 
         .footer,
         .footer-note {
-            font-size: .9rem;
+            font-size: .8rem;
             opacity: .6;
         }
 
         .footer {
-            position: fixed;
-            right: 0;
-            bottom: 20px;
-            left: 0;
-            padding: 0 20px;
+            padding: 20px;
+            text-align: center;
         }
 
         .footer-note {
             margin: 10px 0;
+        }
+        .footer-disclaimer {
+            max-width: 380px;
+            margin: 12px auto 0;
+            font-size: 0.75rem;
+            line-height: 1.5;
         }
 
         @keyframes wobble {
@@ -90,28 +110,35 @@
 </head>
 
 <body>
-
-    <div class="card">
-        <div class="bacon">🥓</div>
-        <h1>Looking for bacon?</h1>
-        <p>
-            Sorry.<br>
-            This is <strong>BAHCON</strong>.
-        </p>
-        <p>
-            Only beans...<br>
-            and a whole bunch of fluffy animals.
-        </p>
-        <p>
-            Redirecting you to<br>
-            <strong>Borneo Anthro Hub</strong>...
-        </p>
-        <p class="footer-note">(Yes, we know it sounds like bacon 🥓. XD)</p>
-    </div>
+    <main>
+        <div class="card">
+            <div class="bacon">🥓</div>
+            <h1>Looking for bacon?</h1>
+            <p>
+                Sorry.<br>
+                This is <strong>BAHCON</strong>.
+            </p>
+            <p>
+                Only fluffy beans...<br>
+                and a whole bunch of furry friends.
+            </p>
+            <p>
+                Redirecting you to<br>
+                <a href="https://borneoanthrohub.com/">
+                    <strong>Borneo Anthro Hub</strong>
+                </a>...
+            </p>
+            <p class="footer-note" style="font-size: .9rem;">(Yes, we know it sounds like bacon 🥓. XD)</p>
+            <p class="footer-note">Not redirected? <br> Click the convention name above.</p>
+        </div>
+    </main>
 
     <footer class="footer">
-        © <time datetime="{{ 'now' | date: '%Y' }}">{{ 'now' | date: '%Y' }}</time> Borneo Anthro Hub.<br>
-        Website created by <a href="https://github.com/weemy96">Rouwei Wolf</a> 🐺
+        <img height="60" src="./images/BAH_logo.svg" alt="BAH logo"/><br>
+        <div class="footer-disclaimer">
+            © Borneo Anthro Hub. All logos, images and related intellectual property rights belong to their respective owners.<br><br>
+        </div>
+        Website created by <a href="https://github.com/weemy96" target="_blank" rel="noopener noreferrer">Rouwei Wolf</a> 🐺
     </footer>
 
 </body>
