@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +9,7 @@
 
     <meta http-equiv="refresh" content="10; url=https://borneoanthrohub.com/">
 
-    <title>bahcon.my</title>
+    <title>BAH Con | Borneo Anthro Hub</title>
 
     <style>
         * {
@@ -52,10 +54,22 @@
             color: #A53A2A;
         }
 
-        .footer {
-            margin-top: 40px;
+        .footer,
+        .footer-note {
             font-size: .9rem;
             opacity: .6;
+        }
+
+        .footer {
+            position: fixed;
+            right: 0;
+            bottom: 20px;
+            left: 0;
+            padding: 0 20px;
+        }
+
+        .footer-note {
+            margin: 10px 0;
         }
 
         @keyframes wobble {
@@ -78,31 +92,27 @@
 <body>
 
     <div class="card">
-
         <div class="bacon">🥓</div>
-
         <h1>Looking for bacon?</h1>
-
         <p>
             Sorry.<br>
             This is <strong>BAHCON</strong>.
         </p>
-
         <p>
             Only beans...<br>
             and a whole bunch of fluffy animals.
         </p>
-
         <p>
             Redirecting you to<br>
             <strong>Borneo Anthro Hub</strong>...
         </p>
-
-        <div class="footer">
-            (Yes, we know it sounds like bacon. XD)
-        </div>
-
+        <p class="footer-note">(Yes, we know it sounds like bacon 🥓. XD)</p>
     </div>
+
+    <footer class="footer">
+        © <time datetime="{{ 'now' | date: '%Y' }}">{{ 'now' | date: '%Y' }}</time> Borneo Anthro Hub.<br>
+        Website created by <a href="https://github.com/weemy96">Rouwei Wolf</a> 🐺
+    </footer>
 
 </body>
 
