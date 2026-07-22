@@ -1,80 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Oops... Were you looking for bacon?">
-    <meta http-equiv="refresh" content="5;url=https://borneoanthrohub.com/">
-    <title>BAHCON</title>
+
+    <meta http-equiv="refresh" content="10; url=https://borneoanthrohub.com/">
+
+    <title>bahcon.my</title>
 
     <style>
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            background: #fff7ef;
-            color: #333;
-            font-family: system-ui, sans-serif;
+            margin: 0;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            background: linear-gradient(135deg, #fff8f0, #ffe9d2);
+            font-family: system-ui, sans-serif;
+            color: #503526;
             text-align: center;
+            overflow: hidden;
         }
 
         .card {
-            max-width: 600px;
+            max-width: 520px;
             padding: 40px;
         }
 
         .bacon {
-            font-size: 90px;
+            font-size: 5rem;
+            animation: wobble 1.8s ease-in-out infinite;
         }
 
         h1 {
-            margin: 20px 0;
-            font-size: 2.2rem;
+            margin: 15px 0;
+            font-size: 2.5rem;
         }
 
         p {
             margin: 10px 0;
-            font-size: 1.1rem;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 1.15rem;
         }
 
-        small {
-            color: #888;
+        strong {
+            color: #A53A2A;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: .9rem;
+            opacity: .6;
+        }
+
+        @keyframes wobble {
+            0% {
+                transform: rotate(-6deg);
+            }
+
+            50% {
+                transform: rotate(6deg);
+            }
+
+            100% {
+                transform: rotate(-6deg);
+            }
         }
     </style>
+
 </head>
 
 <body>
 
-<div class="card">
+    <div class="card">
 
-    <div class="bacon">🥓</div>
+        <div class="bacon">🥓</div>
 
-    <h1>Welcome to BaconCon!</h1>
+        <h1>Looking for bacon?</h1>
 
-    <p>
-        Wait... this isn't a bacon convention.
-    </p>
+        <p>
+            Sorry.<br>
+            This is <strong>BAHCON</strong>.
+        </p>
 
-    <p>
-        You were probably looking for
-        <strong>BAHCON</strong>, not <strong>Bacon</strong>.
-    </p>
+        <p>
+            Only beans...<br>
+            and a whole bunch of fluffy animals.
+        </p>
 
-    <p>
-        Redirecting you to the correct convention...
-    </p>
+        <p>
+            Redirecting you to<br>
+            <strong>Borneo Anthro Hub</strong>...
+        </p>
 
-    <small>(Unless you're actually here for bacon.)</small>
+        <div class="footer">
+            (Yes, we know it sounds like bacon. XD)
+        </div>
 
-</div>
+    </div>
 
 </body>
+
 </html>
