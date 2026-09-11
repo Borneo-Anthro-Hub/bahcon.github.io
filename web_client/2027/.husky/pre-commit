@@ -1,0 +1,2 @@
+cd web_client/2027
+pnpm exec lint-staged
