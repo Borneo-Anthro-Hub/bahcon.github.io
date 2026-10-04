@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Mail, MapPin } from "lucide-react";
 import PageHero from "@/components/server/layout/PageHero";
 import SocialLinks from "@/components/server/layout/SocialLinks";
+import { withBasePath } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
 /*  Yellow pill badge — "Our Community" / "Our Mascots"                */
@@ -102,7 +103,7 @@ function MascotCard({ mascot }: { mascot: Mascot }) {
           className="bg-brand-secondary/20 absolute -bottom-12 -left-12 h-36 w-36 rounded-full"
         />
         <Image
-          src={mascot.image}
+          src={withBasePath(mascot.image)}
           alt={`${mascot.name}, the ${mascot.species} mascot`}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"

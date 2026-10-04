@@ -3,6 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { withBasePath } from "@/lib/utils";
 import {
   Carousel,
   CarouselContent,
@@ -133,7 +134,7 @@ function GuidelineCard({ g }: { g: (typeof guidelines)[number] }) {
       {g.image ? (
         <div className="bg-muted relative aspect-square w-full">
           <Image
-            src={g.image}
+            src={withBasePath(g.image)}
             alt={g.title}
             fill
             sizes="(max-width: 640px) 85vw, 50vw"
