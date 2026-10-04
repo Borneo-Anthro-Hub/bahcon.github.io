@@ -6,6 +6,7 @@ import SocialLinks from "@/components/server/layout/SocialLinks";
 import { navItems } from "@/lib/nav/site-nav";
 import { useSiteState } from "@/components/client/SiteStateProvider";
 import { Mail } from "lucide-react";
+import { withBasePath } from "@/lib/utils";
 
 const archiveYears = [
   {
@@ -61,7 +62,7 @@ export default function Footer() {
             <div className="flex flex-col items-start gap-4 lg:w-64 lg:shrink-0">
               <div className="relative h-15 w-30">
                 <Image
-                  src="/2027_images/BAH_logo.svg"
+                  src={withBasePath("/2027_images/BAH_logo.svg")}
                   alt="Borneo Anthro Hub"
                   fill
                   className="object-contain"

@@ -2,6 +2,7 @@ import { Accordion } from "@base-ui/react/accordion";
 import PageHero from "@/components/server/layout/PageHero";
 import Section from "@/components/server/layout/Section";
 import { requireFeature } from "@/lib/site-state/require-feature";
+import { withBasePath } from "@/lib/utils";
 
 type Faq = { question: string; answer: string };
 
@@ -152,7 +153,7 @@ export default function VolunteerPage() {
           <div className="border-border flex flex-col gap-4 rounded-lg border bg-[#54CCC9] p-6 text-[#373F52]">
             <div className="flex flex-col items-center text-center">
               <img
-                src="/2026_images/join_us/Panelist.svg"
+                src={withBasePath("/2026_images/join_us/Panelist.svg")}
                 alt="The Shamans"
                 className="h-20 w-auto"
               />
@@ -207,7 +208,7 @@ export default function VolunteerPage() {
           <div className="border-border flex flex-col gap-4 rounded-lg border bg-[#FFCB65] p-6 text-[#472B13]">
             <div className="flex flex-col items-center text-center">
               <img
-                src="/2026_images/join_us/Volunteer.svg"
+                src={withBasePath("/2026_images/join_us/Volunteer.svg")}
                 alt="The Totem Bearers"
                 className="h-20 w-auto"
               />

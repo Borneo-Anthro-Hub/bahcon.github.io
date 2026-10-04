@@ -39,17 +39,21 @@ jobs:
 
       - name: Build static export
         working-directory: web_client/2027
+        env:
+          NEXT_BASE_PATH: /web_client/2027
         run: pnpm build
 
-      - name: Preserve GitHub Pages files
+      - name: Assemble Pages artifact
         run: |
-          touch web_client/2027/out/.nojekyll
-          cp CNAME web_client/2027/out/CNAME
+          mkdir -p "$RUNNER_TEMP/pages-site/web_client/2027"
+          cp -a index.html CNAME favicon.ico images email_assets "$RUNNER_TEMP/pages-site/"
+          cp -a web_client/2027/out/. "$RUNNER_TEMP/pages-site/web_client/2027/"
+          touch "$RUNNER_TEMP/pages-site/.nojekyll"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: web_client/2027/out
+          path: ${{ runner.temp }}/pages-site
 
   deploy:
     environment:

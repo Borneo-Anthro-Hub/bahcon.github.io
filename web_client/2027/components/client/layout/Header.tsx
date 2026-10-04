@@ -11,6 +11,7 @@ import DevThemeSwitcher from "@/components/client/DevThemeSwitcher";
 import DevSiteStateSwitcher from "@/components/client/DevSiteStateSwitcher";
 import { useSiteState } from "@/components/client/SiteStateProvider";
 import { navItems } from "@/lib/nav/site-nav";
+import { withBasePath } from "@/lib/utils";
 
 // ---- Desktop dropdown styling (Base UI NavigationMenu) ----
 const triggerClassName =
@@ -107,7 +108,7 @@ export default function Header() {
           className="relative h-9 w-30 shrink-0 md:h-11 md:w-37.5"
         >
           <Image
-            src="/2027_images/BAH_logo.svg"
+            src={withBasePath("/2027_images/BAH_logo.svg")}
             alt="Borneo Anthro Hub"
             fill
             priority
