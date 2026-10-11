@@ -16,9 +16,9 @@ const archiveYears = [
 ];
 
 const columnHeadingClassName =
-  "text-brand-text/100 font-heading mb-3 text-sm tracking-wide uppercase";
+  "type-caption-s-bold text-brand-text/100 mb-3 tracking-wide uppercase";
 const footerLinkClassName =
-  "text-brand-accent/90 hover:text-brand-accent text-sm underline decoration-brand-accent/40 underline-offset-2 transition-colors";
+  "type-body-s text-brand-accent/90 hover:text-brand-accent underline decoration-brand-accent/40 underline-offset-2 transition-colors";
 
 /** A single footer nav link, with an optional leading bullet dot. */
 function FooterListItem({
@@ -70,7 +70,7 @@ export default function Footer() {
               </div>
 
               <div>
-                <h4 className="text-brand-accent/90 font-heading mb-3 text-sm tracking-wide uppercase">
+                <h4 className="type-caption-s-bold text-brand-accent/90 mb-3 tracking-wide uppercase">
                   Let&rsquo;s get in Touch!
                 </h4>
                 {/* Social icons */}
@@ -78,10 +78,10 @@ export default function Footer() {
                   <SocialLinks />
                 </div>
                 {/* Email */}
-                <p className="text-brand-text/100 text-xs">Email us at</p>
+                <p className="type-body-s text-brand-text/100">Email us at</p>
                 <a
                   href="mailto:admin@borneoanthrohub.com"
-                  className="text-brand-accent/90 hover:text-brand-accent decoration-brand-accent/40 inline-flex items-center gap-1.5 text-sm underline underline-offset-2 transition-colors"
+                  className="type-body-s text-brand-accent/90 hover:text-brand-accent decoration-brand-accent/40 inline-flex items-center gap-1.5 underline underline-offset-2 transition-colors"
                 >
                   <Mail className="h-4 w-4" />
                   <span>admin@borneoanthrohub.com</span>
@@ -136,7 +136,7 @@ export default function Footer() {
 
           {/* ---- Bottom row: copyright ---- */}
           <div className="border-brand-text/15 border-t pt-4 text-center">
-            <p className="text-brand-text/50 text-xs">
+            <p className="type-caption-s-medium text-brand-text/50">
               &copy; {currentYear} Borneo Anthro Hub. All logos, images and
               related intellectual property rights belong to their respective
               owners.

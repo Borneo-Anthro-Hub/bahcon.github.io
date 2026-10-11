@@ -15,7 +15,7 @@ import { withBasePath } from "@/lib/utils";
 
 // ---- Desktop dropdown styling (Base UI NavigationMenu) ----
 const triggerClassName =
-  "flex h-9 items-center gap-1 rounded-full px-3 text-sm text-brand-text/80 transition-colors select-none hover:bg-white/10 hover:text-brand-text data-popup-open:bg-white/10 data-popup-open:text-brand-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-accent";
+  "type-body-s flex h-9 items-center gap-1 rounded-full px-3 text-brand-text/80 transition-colors select-none hover:bg-white/10 hover:text-brand-text data-popup-open:bg-white/10 data-popup-open:text-brand-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-accent";
 
 const contentClassName =
   "h-full w-[calc(100vw-40px)] p-2 min-[500px]:w-max min-[500px]:min-w-[230px] " +
@@ -23,7 +23,7 @@ const contentClassName =
   "data-starting-style:opacity-0 data-ending-style:opacity-0";
 
 const linkCardClassName =
-  "flex w-full items-center rounded-md px-3 py-2 text-left text-sm text-popover-foreground/80 no-underline hover:bg-brand-subtle hover:text-popover-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-brand-accent";
+  "type-body-s flex w-full items-center rounded-md px-3 py-2 text-left text-popover-foreground/80 no-underline hover:bg-brand-subtle hover:text-popover-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-brand-accent";
 
 export default function Header() {
   const pathname = usePathname();
@@ -118,7 +118,7 @@ export default function Header() {
 
         {/* ---- Desktop navigation: Base UI NavigationMenu with dropdowns ---- */}
         <NavigationMenu.Root className="ml-6 hidden md:block lg:ml-10">
-          <NavigationMenu.List className="flex items-center gap-1 text-sm">
+          <NavigationMenu.List className="flex items-center gap-1">
             {visibleItems.map((item) => {
               const topActive =
                 isActive(item.href) ||
@@ -268,7 +268,7 @@ export default function Header() {
                           return null;
                         return (
                           <div key={item.href} className="mb-4">
-                            <p className="text-brand-secondary font-caption mb-2 px-2 text-xs font-bold tracking-wider uppercase">
+                            <p className="type-caption-s-bold text-brand-secondary mb-2 px-2 tracking-wider uppercase">
                               {item.label}
                             </p>
                             <div className="flex flex-col gap-0.5">
@@ -283,7 +283,7 @@ export default function Header() {
                                     handleNavClick(e, child.href);
                                     setDrawerOpen(false);
                                   }}
-                                  className={`rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+                                  className={`type-body-s rounded-lg px-3 py-2 text-left transition-colors ${
                                     isActive(child.href)
                                       ? "text-brand-accent bg-white/10 font-medium"
                                       : "text-brand-text/80 hover:text-brand-text hover:bg-white/10"

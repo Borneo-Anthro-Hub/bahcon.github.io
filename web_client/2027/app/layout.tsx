@@ -50,7 +50,7 @@ export default function RootLayout({
         </a>
         <ThemeProvider themeKey={themeKey}>
           <SiteStateProvider siteState={siteState}>
-            <div className="border-border text-foreground bg-background flex min-h-screen w-full flex-col font-sans">
+            <div className="site-background border-border text-foreground bg-background flex min-h-screen w-full flex-col font-sans">
               <Header />
               <main id="main-content" className="flex w-full flex-1 flex-col">
                 {children}

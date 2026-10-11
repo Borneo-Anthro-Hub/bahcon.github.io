@@ -10,6 +10,7 @@ interface PageHeroProps {
   showIndex?: boolean;
   showEyebrow?: boolean;
   showDescription?: boolean;
+  titleClassName?: string;
 }
 
 export default function PageHero({
@@ -20,6 +21,7 @@ export default function PageHero({
   showIndex = false,
   showEyebrow = false,
   index = "00",
+  titleClassName = "text-3xl font-bold",
 }: PageHeroProps) {
   return (
     <section className="border-border relative isolate overflow-hidden border-b px-4 py-10 md:px-8">
@@ -46,7 +48,7 @@ export default function PageHero({
             </p>
           )}
         </div>
-        <h1 className="text-3xl font-bold">{title}</h1>
+        <h1 className={titleClassName}>{title}</h1>
         {showDescription && description && (
           <p className="text-muted-foreground text-sm">{description}</p>
         )}

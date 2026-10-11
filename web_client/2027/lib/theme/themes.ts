@@ -16,6 +16,8 @@
 // `getActiveTheme()` helper that resolves `ACTIVE_THEME` from `site-config.ts`.
 // =============================================================================
 
+import { withBasePath } from "@/lib/utils";
+
 // -----------------------------------------------------------------------------
 // Types
 // -----------------------------------------------------------------------------
@@ -59,6 +61,44 @@ export interface SemanticTokens {
   sidebarRing: string;
 }
 
+export type TypographyFontRole = "display" | "heading" | "body" | "caption";
+
+export interface TypographyStyle {
+  font: TypographyFontRole;
+  size: number;
+  weight: 400 | 500 | 600 | 700;
+  lineHeight: number;
+}
+
+export type TypographyTokenName =
+  | "heroH1"
+  | "heroH3"
+  | "heroH4"
+  | "headingH3"
+  | "headingH4"
+  | "bodyLSemibold"
+  | "bodyL"
+  | "bodySSemibold"
+  | "bodyS"
+  | "captionSMedium"
+  | "captionSBold";
+
+export type TypographyTokens = Record<TypographyTokenName, TypographyStyle>;
+
+const defaultTypography: TypographyTokens = {
+  heroH1: { font: "display", size: 56, weight: 700, lineHeight: 1.2 },
+  heroH3: { font: "display", size: 40, weight: 700, lineHeight: 1.2 },
+  heroH4: { font: "display", size: 32, weight: 400, lineHeight: 1.2 },
+  headingH3: { font: "heading", size: 40, weight: 400, lineHeight: 1.2 },
+  headingH4: { font: "heading", size: 32, weight: 400, lineHeight: 1.2 },
+  bodyLSemibold: { font: "body", size: 18, weight: 600, lineHeight: 1.2 },
+  bodyL: { font: "body", size: 18, weight: 400, lineHeight: 1.2 },
+  bodySSemibold: { font: "body", size: 14, weight: 600, lineHeight: 1.2 },
+  bodyS: { font: "body", size: 14, weight: 400, lineHeight: 1.2 },
+  captionSMedium: { font: "caption", size: 12, weight: 500, lineHeight: 1.2 },
+  captionSBold: { font: "caption", size: 12, weight: 700, lineHeight: 1.2 },
+};
+
 export interface Theme {
   label: string;
   font: string;
@@ -71,6 +111,13 @@ export interface Theme {
   bodyFont?: string;
   /** Caption / small text font (e.g. Poppins). */
   captionFont?: string;
+  /** Named type styles; sizes are in px and line heights are unitless. */
+  typography?: TypographyTokens;
+  /** Optional repeating page background configured for the active theme. */
+  pageBackground?: {
+    image: string;
+    size: string;
+  };
   brand: BrandTokens;
   semantic: SemanticTokens;
 }
@@ -126,11 +173,33 @@ export const themes = {
     label: "2027",
     fontUrl:
       "https://fonts.googleapis.com/css2?family=Oleo+Script:wght@400;700&family=Margarine&family=Cause:wght@400;600&family=Poppins:wght@500;700&display=swap",
-    font: "'General Sans', system-ui, sans-serif",
+    font: "'Cause', system-ui, sans-serif",
     displayFont: "'Oleo Script', cursive",
     headingFont: "'Margarine', system-ui, sans-serif",
     bodyFont: "'Cause', system-ui, sans-serif",
     captionFont: "'Poppins', system-ui, sans-serif",
+    pageBackground: {
+      image: "/2027_images/repeat_background.png",
+      size: "3000px auto",
+    },
+    typography: {
+      heroH1: { font: "display", size: 56, weight: 700, lineHeight: 1.2 },
+      heroH3: { font: "display", size: 40, weight: 700, lineHeight: 1.2 },
+      heroH4: { font: "display", size: 32, weight: 400, lineHeight: 1.2 },
+      headingH3: { font: "heading", size: 40, weight: 400, lineHeight: 1.2 },
+      headingH4: { font: "heading", size: 32, weight: 400, lineHeight: 1.2 },
+      bodyLSemibold: { font: "body", size: 18, weight: 600, lineHeight: 1.2 },
+      bodyL: { font: "body", size: 18, weight: 400, lineHeight: 1.2 },
+      bodySSemibold: { font: "body", size: 14, weight: 600, lineHeight: 1.2 },
+      bodyS: { font: "body", size: 14, weight: 400, lineHeight: 1.2 },
+      captionSMedium: {
+        font: "caption",
+        size: 12,
+        weight: 500,
+        lineHeight: 1.2,
+      },
+      captionSBold: { font: "caption", size: 12, weight: 700, lineHeight: 1.2 },
+    },
     // BAH 2027 palette (all 500 / Main) + derived shades for contrast
     // Design: dark green header/footer, pale cream content area, orange accents
     brand: {
@@ -144,11 +213,11 @@ export const themes = {
     },
     semantic: {
       background: "#fdf6e3", // warm pale cream (content area)
-      foreground: "#3a342b", // warm dark (text on cream, 5.9:1 AA)
+      foreground: "#000000", // General Black typography from the 2027 guide
       card: "#ffffff",
-      cardForeground: "#3a342b",
+      cardForeground: "#000000",
       popover: "#fbf3e6", // warm cream (Woody Earth tint)
-      popoverForeground: "#3a342b",
+      popoverForeground: "#000000",
       primary: "#f5b425", // BAH Sunshine Yellow
       primaryForeground: "#3a2d05", // dark on yellow (AA)
       secondary: "#ff836d", // BAH Floral Coral
@@ -241,7 +310,25 @@ export function parseThemeKey(raw: string | undefined): ThemeKey | null {
  * utility class across the site with no per-component changes needed.
  */
 export function themeToCssVars(theme: Theme): Record<string, string> {
+  const typographyVars = Object.entries(
+    theme.typography ?? defaultTypography,
+  ).reduce<Record<string, string>>((vars, [name, style]) => {
+    const token = name.replace(
+      /[A-Z]/g,
+      (letter) => `-${letter.toLowerCase()}`,
+    );
+    vars[`--type-${token}-font-family`] = `var(--font-${style.font})`;
+    vars[`--type-${token}-font-size`] = `${style.size}px`;
+    vars[`--type-${token}-font-weight`] = String(style.weight);
+    vars[`--type-${token}-line-height`] = String(style.lineHeight);
+    return vars;
+  }, {});
+
   return {
+    "--page-background-image": theme.pageBackground
+      ? `url("${withBasePath(theme.pageBackground.image)}")`
+      : "none",
+    "--page-background-size": theme.pageBackground?.size ?? "auto",
     "--brand-bg": theme.brand.bg,
     "--brand-accent": theme.brand.accent,
     "--brand-text": theme.brand.text,
@@ -280,5 +367,6 @@ export function themeToCssVars(theme: Theme): Record<string, string> {
     "--font-heading": theme.headingFont ?? theme.font,
     "--font-body": theme.bodyFont ?? theme.font,
     "--font-caption": theme.captionFont ?? theme.font,
+    ...typographyVars,
   };
 }

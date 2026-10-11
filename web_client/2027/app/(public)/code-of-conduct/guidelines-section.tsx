@@ -151,8 +151,8 @@ function GuidelineCard({ g }: { g: (typeof guidelines)[number] }) {
           {String(g.rule).padStart(2, "0")}
         </span>
         <div>
-          <p className="text-sm font-semibold">{g.title}</p>
-          <p className="text-muted-foreground mt-1 text-xs">{g.text}</p>
+          <p className="type-body-l-semibold">{g.title}</p>
+          <p className="type-body-s text-muted-foreground mt-1">{g.text}</p>
         </div>
       </div>
     </div>

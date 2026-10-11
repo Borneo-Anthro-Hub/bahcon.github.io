@@ -1,24 +1,17 @@
 import PageHero from "@/components/server/layout/PageHero";
 import Section from "@/components/server/layout/Section";
 import { requireFeature } from "@/lib/site-state/require-feature";
-import { withBasePath } from "@/lib/utils";
 
 export default function TermsPage() {
   requireFeature("termsAndConditions");
 
   return (
-    <div
-      className="flex flex-1 flex-col"
-      style={{
-        backgroundImage: `url("${withBasePath("/2027_images/repeat_background.png")}")`,
-        backgroundRepeat: "repeat",
-        backgroundSize: "3000px auto",
-      }}
-    >
+    <div className="flex flex-1 flex-col">
       <PageHero
         eyebrow="Policies"
-        title="Terms &amp; Conditions"
+        title="Terms & Conditions"
         description="Rules, policies, and terms for attending Borneo Anthro Hub."
+        titleClassName="type-hero-h1"
       />
 
       <Section index="01" eyebrow="Terms &amp; Conditions">
