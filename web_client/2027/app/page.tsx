@@ -25,12 +25,10 @@ const EVENT_MONTH_YEAR = "July 2027";
 // Data
 // ---------------------------------------------------------------------------
 
-/** Evergreen-only links shown on the Dormant landing page. */
+/** Minimal policy links active while the site is dormant. */
 const evergreenLinks = [
-  { label: "About Us", href: "/about" },
   { label: "Code of Conduct", href: "/code-of-conduct" },
   { label: "Terms & Conditions", href: "/terms-and-conditions" },
-  { label: "Volunteer", href: "/contribution" },
 ];
 
 /** "What to do when I'm in Sabah?" — sub-question under the What column. */

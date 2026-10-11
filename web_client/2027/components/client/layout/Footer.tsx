@@ -16,7 +16,7 @@ const archiveYears = [
 ];
 
 const columnHeadingClassName =
-  "text-brand-text/60 font-heading mb-3 text-sm tracking-wide uppercase";
+  "text-brand-text/100 font-heading mb-3 text-sm tracking-wide uppercase";
 const footerLinkClassName =
   "text-brand-accent/90 hover:text-brand-accent text-sm underline decoration-brand-accent/40 underline-offset-2 transition-colors";
 
@@ -62,7 +62,7 @@ export default function Footer() {
             <div className="flex flex-col items-start gap-4 lg:w-64 lg:shrink-0">
               <div className="relative h-15 w-30">
                 <Image
-                  src={withBasePath("/2027_images/BAH_logo.svg")}
+                  src={withBasePath("/2027_images/BAH_logo_footer.svg")}
                   alt="Borneo Anthro Hub"
                   fill
                   className="object-contain"
@@ -78,7 +78,7 @@ export default function Footer() {
                   <SocialLinks />
                 </div>
                 {/* Email */}
-                <p className="text-brand-text/50 text-xs">Email us at</p>
+                <p className="text-brand-text/100 text-xs">Email us at</p>
                 <a
                   href="mailto:admin@borneoanthrohub.com"
                   className="text-brand-accent/90 hover:text-brand-accent decoration-brand-accent/40 inline-flex items-center gap-1.5 text-sm underline underline-offset-2 transition-colors"

@@ -22,11 +22,12 @@ import type { Feature, SiteState } from "./types";
  * here.
  */
 export const FEATURE_MATRIX: Record<Feature, readonly SiteState[]> = {
-  // Evergreen — available in all states
-  aboutUs: ["D", "T", "A", "TO", "RC", "FIR"],
+  // Dormant only exposes the policy pages for now; all other public pages stay
+  // hidden until the site is reactivated.
+  aboutUs: ["T", "A", "TO", "RC", "FIR"],
   codeOfConduct: ["D", "T", "A", "TO", "RC", "FIR"],
   termsAndConditions: ["D", "T", "A", "TO", "RC", "FIR"],
-  volunteerApplication: ["D", "T", "A", "TO", "RC", "FIR"],
+  volunteerApplication: ["T", "A", "TO", "RC", "FIR"],
 
   // Reserved — planned for 2028 (static-only in 2027)
   login: [],

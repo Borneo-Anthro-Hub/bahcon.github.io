@@ -135,10 +135,10 @@ export const themes = {
     // Design: dark green header/footer, pale cream content area, orange accents
     brand: {
       bg: "#71a33d", // BAH Nature Green (brand identity)
-      accent: "#f5b425", // BAH Sunshine Yellow (CTA / active nav)
-      text: "#ffffff",
+      accent: "#DDB487", // BAH Sunshine Yellow (CTA / active nav)
+      text: "#FFF3F0",
       hover: "#f7c44b", // lighter Sunshine Yellow
-      surface: "#0a2413", // deeper Nature Green (header / footer bar)
+      surface: "#235227", // deeper Nature Green (header / footer bar)
       subtle: "#f3f6e6", // light green tint (soft surfaces)
       secondary: "#ff836d", // BAH Floral Coral (logo border)
     },
