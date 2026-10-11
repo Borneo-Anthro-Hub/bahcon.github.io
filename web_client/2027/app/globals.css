@@ -194,6 +194,13 @@
   content: "";
 }
 
+.animations-paused,
+.animations-paused *,
+.animations-paused *::before,
+.animations-paused *::after {
+  animation-play-state: paused !important;
+}
+
 @media (max-width: 767px) {
   .dormant-sky-layer {
     mask-image: linear-gradient(

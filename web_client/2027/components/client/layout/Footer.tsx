@@ -53,7 +53,7 @@ export default function Footer() {
   );
 
   return (
-    <footer className="bg-brand-surface text-brand-text border-brand-secondary/30 border-t">
+    <footer className="bg-brand-surface text-brand-text border-brand-secondary/30 border-t pb-10">
       <div className="flex w-full justify-center">
         <div className="mx-auto flex flex-col gap-10 px-4 py-10 md:px-8">
           {/* ---- Top row: Brand/contact + nav sitemap ---- */}

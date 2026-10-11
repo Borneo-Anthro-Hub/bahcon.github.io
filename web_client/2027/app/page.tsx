@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -9,7 +9,15 @@ import {
   useScroll,
   useTransform,
 } from "motion/react";
-import { ArrowRight, FileText, Send, Shield, Users } from "lucide-react";
+import {
+  ArrowRight,
+  FileText,
+  Pause,
+  Play,
+  Send,
+  Shield,
+  Users,
+} from "lucide-react";
 import Section from "@/components/server/layout/Section";
 import PlaceholderImage from "@/components/server/home/PlaceholderImage";
 import HomeCta from "@/components/client/home/HomeCta";
@@ -26,6 +34,41 @@ const BRAND_TAGLINE = "Where the wild meets wonderful";
 const BRAND_LOCATION = "Kota Kinabalu · Sabah";
 const EVENT_DAY_RANGE = "10 – 11";
 const EVENT_MONTH_YEAR = "July 2027";
+const ANIMATION_PREFERENCE_KEY = "bah-2027-hero-animations";
+const ANIMATION_PREFERENCE_CHANGE_EVENT = "bah-animation-preference-change";
+
+function getAnimationPreference(): boolean | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  try {
+    const savedPreference = window.localStorage.getItem(
+      ANIMATION_PREFERENCE_KEY,
+    );
+    return savedPreference === "true"
+      ? true
+      : savedPreference === "false"
+        ? false
+        : null;
+  } catch (error) {
+    console.error("Could not load the animation preference.", error);
+    return null;
+  }
+}
+
+function subscribeToAnimationPreference(onChange: () => void) {
+  if (typeof window === "undefined") {
+    return () => {};
+  }
+
+  window.addEventListener("storage", onChange);
+  window.addEventListener(ANIMATION_PREFERENCE_CHANGE_EVENT, onChange);
+  return () => {
+    window.removeEventListener("storage", onChange);
+    window.removeEventListener(ANIMATION_PREFERENCE_CHANGE_EVENT, onChange);
+  };
+}
 
 // ---------------------------------------------------------------------------
 // Data
@@ -268,6 +311,16 @@ function PolicyCard({
 
 function DormantHome() {
   const prefersReducedMotion = useReducedMotion();
+  const [animationOverride, setAnimationOverride] = useState<boolean | null>(
+    null,
+  );
+  const savedAnimationPreference = useSyncExternalStore(
+    subscribeToAnimationPreference,
+    getAnimationPreference,
+    () => null,
+  );
+  const animationsEnabled =
+    animationOverride ?? savedAnimationPreference ?? !prefersReducedMotion;
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -276,29 +329,56 @@ function DormantHome() {
   const skyY = useTransform(
     scrollYProgress,
     [0, 1],
-    prefersReducedMotion ? [0, 0] : [0, 24],
+    animationsEnabled ? [0, 24] : [0, 0],
   );
   const houseY = useTransform(
     scrollYProgress,
     [0, 1],
-    prefersReducedMotion ? [0, 0] : [0, 56],
+    animationsEnabled ? [0, 56] : [0, 0],
   );
   const plantsY = useTransform(
     scrollYProgress,
     [0, 1],
-    prefersReducedMotion ? [0, 0] : [0, 88],
+    animationsEnabled ? [0, 88] : [0, 0],
   );
   const boardY = useTransform(
     scrollYProgress,
     [0, 1],
-    prefersReducedMotion ? [0, 0] : [0, 72],
+    animationsEnabled ? [0, 72] : [0, 0],
   );
 
   return (
     <div className="flex flex-1 flex-col">
+      <button
+        type="button"
+        aria-label="Toggle animations"
+        aria-pressed={animationsEnabled}
+        onClick={() => {
+          const nextPreference = !animationsEnabled;
+          try {
+            window.localStorage.setItem(
+              ANIMATION_PREFERENCE_KEY,
+              String(nextPreference),
+            );
+            setAnimationOverride(null);
+            window.dispatchEvent(new Event(ANIMATION_PREFERENCE_CHANGE_EVENT));
+          } catch (error) {
+            console.error("Could not save the animation preference.", error);
+            setAnimationOverride(nextPreference);
+          }
+        }}
+        className="bg-background/55 text-foreground hover:bg-background/75 fixed right-4 bottom-4 z-[60] inline-flex items-center gap-2 rounded-full border border-white/35 px-3 py-2 text-sm font-medium shadow-lg shadow-black/10 backdrop-blur-md transition-colors"
+      >
+        {animationsEnabled ? (
+          <Pause aria-hidden="true" className="size-4" />
+        ) : (
+          <Play aria-hidden="true" className="size-4" />
+        )}
+        Animations: {animationsEnabled ? "ON" : "OFF"}
+      </button>
       <section
         ref={heroRef}
-        className="border-brand-surface/20 relative isolate min-h-[max(70svh,32rem)] overflow-hidden border-b md:min-h-[calc(90svh-4.25rem)] lg:min-h-[calc(100svh-4.25rem)]"
+        className={`border-brand-surface/20 relative isolate min-h-[max(70svh,32rem)] overflow-hidden border-b md:min-h-[calc(90svh-4.25rem)] lg:min-h-[calc(100svh-4.25rem)] ${animationsEnabled ? "" : "animations-paused"}`}
       >
         <h1 className="sr-only">Tinyverse Garden</h1>
         <div
@@ -353,15 +433,15 @@ function DormantHome() {
         </motion.div>
         <motion.div
           className="pointer-events-none absolute inset-x-0 bottom-0 z-30 mx-auto aspect-[1.43] w-full md:aspect-3960/2160"
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+          initial={animationsEnabled ? { opacity: 0, y: 18 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
         >
           <motion.div
             className="absolute inset-0"
-            animate={prefersReducedMotion ? false : { y: [0, -4, 0] }}
+            animate={animationsEnabled ? { y: [0, -4, 0] } : { y: 0 }}
             transition={
-              prefersReducedMotion
+              !animationsEnabled
                 ? undefined
                 : { duration: 8, repeat: Infinity, ease: "easeInOut" }
             }
@@ -405,15 +485,15 @@ function DormantHome() {
 
         <motion.div
           className="absolute top-[6%] left-[4%] z-[45] hidden w-[min(60vw,920px)] md:block"
-          initial={prefersReducedMotion ? false : { y: 18, scale: 0.98 }}
+          initial={animationsEnabled ? { y: 18, scale: 0.98 } : false}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
           <motion.div
             className="flex w-full flex-col items-center gap-2 md:items-start md:gap-3"
-            animate={prefersReducedMotion ? false : { y: [0, -5, 0] }}
+            animate={animationsEnabled ? { y: [0, -5, 0] } : { y: 0 }}
             transition={
-              prefersReducedMotion
+              !animationsEnabled
                 ? undefined
                 : { duration: 8, repeat: Infinity, ease: "easeInOut" }
             }
@@ -452,9 +532,11 @@ function DormantHome() {
         <motion.div
           className="absolute top-[-13%] left-1/2 z-[45] w-[min(84vw,340px)] -translate-x-1/2 md:hidden"
           style={{ y: boardY }}
-          animate={prefersReducedMotion ? false : { rotate: [0, -1, 1, 0] }}
+          animate={
+            animationsEnabled ? { rotate: [0, -1, 1, 0] } : { rotate: 0 }
+          }
           transition={
-            prefersReducedMotion
+            !animationsEnabled
               ? undefined
               : { duration: 9, repeat: Infinity, ease: "easeInOut" }
           }
@@ -470,9 +552,9 @@ function DormantHome() {
             />
             <motion.div
               className="absolute top-[55%] left-[-8%] flex h-[45%] w-[116%] flex-col items-center justify-center gap-[3%]"
-              animate={prefersReducedMotion ? false : { y: [0, -4, 0] }}
+              animate={animationsEnabled ? { y: [0, -4, 0] } : { y: 0 }}
               transition={
-                prefersReducedMotion
+                !animationsEnabled
                   ? undefined
                   : { duration: 7, repeat: Infinity, ease: "easeInOut" }
               }
