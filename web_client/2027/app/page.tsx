@@ -1,8 +1,14 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useReducedMotion } from "motion/react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "motion/react";
 import { ArrowRight, FileText, Send, Shield, Users } from "lucide-react";
 import Section from "@/components/server/layout/Section";
 import PlaceholderImage from "@/components/server/home/PlaceholderImage";
@@ -262,10 +268,38 @@ function PolicyCard({
 
 function DormantHome() {
   const prefersReducedMotion = useReducedMotion();
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const skyY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    prefersReducedMotion ? [0, 0] : [0, 24],
+  );
+  const houseY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    prefersReducedMotion ? [0, 0] : [0, 56],
+  );
+  const plantsY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    prefersReducedMotion ? [0, 0] : [0, 88],
+  );
+  const boardY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    prefersReducedMotion ? [0, 0] : [0, 72],
+  );
 
   return (
     <div className="flex flex-1 flex-col">
-      <section className="border-brand-surface/20 relative isolate min-h-[max(70svh,32rem)] overflow-hidden border-b md:min-h-[calc(90svh-4.25rem)] lg:min-h-[calc(100svh-4.25rem)]">
+      <section
+        ref={heroRef}
+        className="border-brand-surface/20 relative isolate min-h-[max(70svh,32rem)] overflow-hidden border-b md:min-h-[calc(90svh-4.25rem)] lg:min-h-[calc(100svh-4.25rem)]"
+      >
         <h1 className="sr-only">Tinyverse Garden</h1>
         <div
           aria-hidden="true"
@@ -274,16 +308,7 @@ function DormantHome() {
         <motion.div
           aria-hidden="true"
           className="dormant-sky-layer absolute bottom-0 left-1/2 aspect-3960/2160 w-[140vw] max-w-none -translate-x-1/2 max-md:top-0 max-md:right-0 max-md:bottom-0 max-md:left-0 max-md:aspect-auto max-md:w-full max-md:translate-x-0 md:w-[120vw] lg:left-0 lg:w-full lg:translate-x-0"
-          animate={
-            prefersReducedMotion
-              ? undefined
-              : { scale: [1, 1.015, 1], y: [0, -3, 0] }
-          }
-          transition={
-            prefersReducedMotion
-              ? undefined
-              : { duration: 28, repeat: Infinity, ease: "easeInOut" }
-          }
+          style={{ y: skyY }}
         >
           <Image
             src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/BG%20-%20SKY.webp"
@@ -294,11 +319,12 @@ function DormantHome() {
             className="object-contain object-bottom max-md:object-cover max-md:object-[center_40%]"
           />
         </motion.div>
-        <div
+        <motion.div
           aria-hidden="true"
           className="absolute bottom-0 left-1/2 z-10 mx-auto aspect-3960/2160 w-[140vw] max-w-none -translate-x-1/2 md:w-[120vw] lg:left-0 lg:w-full lg:translate-x-0"
           style={{
             maskImage: "linear-gradient(to bottom, transparent, black 18%)",
+            y: houseY,
           }}
         >
           <Image
@@ -308,19 +334,14 @@ function DormantHome() {
             sizes="140vw"
             className="object-contain object-bottom"
           />
-        </div>
+        </motion.div>
         <motion.div
           aria-hidden="true"
           className="absolute bottom-0 left-1/2 z-20 mx-auto aspect-3960/2160 w-[140vw] max-w-none -translate-x-1/2 md:w-[120vw] lg:left-0 lg:w-full lg:translate-x-0"
           style={{
             maskImage: "linear-gradient(to bottom, transparent, black 18%)",
+            y: plantsY,
           }}
-          animate={prefersReducedMotion ? undefined : { y: [0, -3, 0] }}
-          transition={
-            prefersReducedMotion
-              ? undefined
-              : { duration: 10, repeat: Infinity, ease: "easeInOut" }
-          }
         >
           <Image
             src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/BG%20-%20PLANTS.webp"
@@ -336,40 +357,42 @@ function DormantHome() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
         >
-          <motion.picture
+          <motion.div
             className="absolute inset-0"
-            animate={prefersReducedMotion ? undefined : { y: [0, -4, 0] }}
+            animate={prefersReducedMotion ? false : { y: [0, -4, 0] }}
             transition={
               prefersReducedMotion
                 ? undefined
                 : { duration: 8, repeat: Infinity, ease: "easeInOut" }
             }
           >
-            <source
-              media="(max-width: 767px)"
-              srcSet="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20SEAN%20AND%20AMINAH%20Mobile.webp"
-            />
-            <Image
-              src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20SEAN%20AND%20AMINAH.webp"
-              alt=""
-              fill
-              sizes="100vw"
-              className="object-contain object-bottom"
-            />
-          </motion.picture>
-          <picture className="absolute bottom-0 left-[4%] aspect-[1.19] w-[26%] md:inset-0 md:aspect-auto md:w-full">
-            <source
-              media="(max-width: 767px)"
-              srcSet="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20THE%20RAT%20Mobile.webp"
-            />
-            <Image
-              src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20THE%20RAT.webp"
-              alt=""
-              fill
-              sizes="100vw"
-              className="object-contain object-bottom"
-            />
-          </picture>
+            <picture className="absolute inset-0">
+              <source
+                media="(max-width: 767px)"
+                srcSet="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20SEAN%20AND%20AMINAH%20Mobile.webp"
+              />
+              <Image
+                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20SEAN%20AND%20AMINAH.webp"
+                alt=""
+                fill
+                sizes="100vw"
+                className="object-contain object-bottom"
+              />
+            </picture>
+            <picture className="absolute bottom-0 left-[4%] aspect-[1.19] w-[26%] md:inset-0 md:aspect-auto md:w-full">
+              <source
+                media="(max-width: 767px)"
+                srcSet="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20THE%20RAT%20Mobile.webp"
+              />
+              <Image
+                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20THE%20RAT.webp"
+                alt=""
+                fill
+                sizes="100vw"
+                className="object-contain object-bottom"
+              />
+            </picture>
+          </motion.div>
         </motion.div>
         <motion.div
           aria-hidden="true"
@@ -377,11 +400,7 @@ function DormantHome() {
         />
         <div
           aria-hidden="true"
-          className="absolute top-8 left-1/2 z-40 h-48 w-48 -translate-x-1/2 rounded-full bg-[#fff4c7]/30 blur-3xl md:h-72 md:w-72"
-        />
-        <div
-          aria-hidden="true"
-          className="noise-overlay absolute inset-0 z-40 opacity-20"
+          className="absolute top-8 left-1/2 z-40 h-48 w-48 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,244,199,0.3),transparent_70%)] md:h-72 md:w-72"
         />
 
         <motion.div
@@ -392,11 +411,7 @@ function DormantHome() {
         >
           <motion.div
             className="flex w-full flex-col items-center gap-2 md:items-start md:gap-3"
-            animate={
-              prefersReducedMotion
-                ? undefined
-                : { y: [0, -5, 0], rotate: [0, 0.3, 0] }
-            }
+            animate={prefersReducedMotion ? false : { y: [0, -5, 0] }}
             transition={
               prefersReducedMotion
                 ? undefined
@@ -405,7 +420,7 @@ function DormantHome() {
           >
             <div className="flex w-full items-center justify-center gap-[3%] md:justify-start">
               <Image
-                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Tinyverse.svg"
+                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Tinyverse.png"
                 alt=""
                 width={2026}
                 height={654}
@@ -414,7 +429,7 @@ function DormantHome() {
                 className="h-auto w-[48%]"
               />
               <Image
-                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Garden.svg"
+                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Garden.png"
                 alt=""
                 width={1658}
                 height={536}
@@ -424,7 +439,7 @@ function DormantHome() {
               />
             </div>
             <Image
-              src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Date.svg"
+              src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Date.png"
               alt="10th–11th July 2027"
               width={2200}
               height={970}
@@ -436,35 +451,35 @@ function DormantHome() {
         </motion.div>
         <motion.div
           className="absolute top-[-13%] left-1/2 z-[45] w-[min(84vw,340px)] -translate-x-1/2 md:hidden"
-          initial={prefersReducedMotion ? false : { y: 18, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          style={{ y: boardY }}
+          animate={prefersReducedMotion ? false : { rotate: [0, -1, 1, 0] }}
+          transition={
+            prefersReducedMotion
+              ? undefined
+              : { duration: 9, repeat: Infinity, ease: "easeInOut" }
+          }
         >
-          <motion.div
-            className="relative aspect-[1707/2011] w-full"
-            animate={
-              prefersReducedMotion
-                ? undefined
-                : { y: [0, -5, 0], rotate: [0, 0.5, 0, -0.5, 0] }
-            }
-            transition={
-              prefersReducedMotion
-                ? undefined
-                : { duration: 7, repeat: Infinity, ease: "easeInOut" }
-            }
-          >
+          <div className="relative aspect-[1707/2011] w-full">
             <Image
-              src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Background_Board.svg"
+              src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Background_Board.png"
               alt=""
               fill
               priority
               sizes="(max-width: 767px) min(84vw, 340px)"
               className="object-contain"
             />
-            <div className="absolute top-[55%] left-[-8%] flex h-[45%] w-[116%] flex-col items-center justify-center gap-[3%]">
+            <motion.div
+              className="absolute top-[55%] left-[-8%] flex h-[45%] w-[116%] flex-col items-center justify-center gap-[3%]"
+              animate={prefersReducedMotion ? false : { y: [0, -4, 0] }}
+              transition={
+                prefersReducedMotion
+                  ? undefined
+                  : { duration: 7, repeat: Infinity, ease: "easeInOut" }
+              }
+            >
               <div className="flex w-full flex-1 items-center justify-center gap-[3%]">
                 <Image
-                  src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Tinyverse.svg"
+                  src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Tinyverse.png"
                   alt=""
                   width={2026}
                   height={654}
@@ -472,7 +487,7 @@ function DormantHome() {
                   className="h-auto w-[52%] drop-shadow-[0_2px_5px_rgb(30_53_25_/_25%)]"
                 />
                 <Image
-                  src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Garden.svg"
+                  src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Garden.png"
                   alt=""
                   width={1658}
                   height={536}
@@ -481,27 +496,19 @@ function DormantHome() {
                 />
               </div>
               <Image
-                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Date.svg"
+                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Date.png"
                 alt="10th–11th July 2027"
                 width={2200}
                 height={970}
                 priority
                 className="h-auto w-[58%] drop-shadow-[0_2px_5px_rgb(30_53_25_/_25%)]"
               />
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </motion.div>
-        <motion.div
+        <div
           aria-hidden="true"
           className="dormant-hero-glow pointer-events-none absolute inset-x-0 bottom-0 z-50 h-16"
-          animate={
-            prefersReducedMotion ? undefined : { opacity: [0.72, 1, 0.72] }
-          }
-          transition={
-            prefersReducedMotion
-              ? undefined
-              : { duration: 4.5, repeat: Infinity, ease: "easeInOut" }
-          }
         />
       </section>
 

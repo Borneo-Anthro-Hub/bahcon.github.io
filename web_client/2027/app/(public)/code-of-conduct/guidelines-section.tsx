@@ -130,9 +130,9 @@ function CarouselDots() {
 
 function GuidelineCard({ g }: { g: (typeof guidelines)[number] }) {
   return (
-    <div className="border-border overflow-hidden rounded border">
+    <div className="border-border bg-card group hover:border-brand-accent/50 overflow-hidden rounded border shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
       {g.image ? (
-        <div className="bg-muted relative aspect-square w-full">
+        <div className="from-brand-subtle/70 via-muted to-brand-subtle/40 relative aspect-square w-full bg-linear-to-br">
           <Image
             src={withBasePath(g.image)}
             alt={g.title}
@@ -142,15 +142,19 @@ function GuidelineCard({ g }: { g: (typeof guidelines)[number] }) {
           />
         </div>
       ) : (
-        <div className="bg-muted relative aspect-square w-full">
+        <div className="from-brand-subtle/70 via-muted to-brand-subtle/40 relative aspect-square w-full bg-linear-to-br">
           <PlaceholderImage />
         </div>
       )}
-      <div className="flex items-start gap-3 p-4">
-        <span className="border-border text-muted-foreground mt-0.5 shrink-0 border px-1.5 py-0.5 font-mono text-[10px]">
+      <div className="from-brand-subtle/50 via-card to-card relative flex items-start gap-3 overflow-hidden bg-linear-to-br p-4">
+        <span
+          aria-hidden="true"
+          className="bg-brand-accent/10 pointer-events-none absolute -top-8 -right-8 size-24 rounded-full blur-2xl"
+        />
+        <span className="border-border text-muted-foreground relative mt-0.5 shrink-0 border px-1.5 py-0.5 font-mono text-[10px]">
           {String(g.rule).padStart(2, "0")}
         </span>
-        <div>
+        <div className="relative">
           <p className="type-body-l-semibold">{g.title}</p>
           <p className="type-body-s text-muted-foreground mt-1">{g.text}</p>
         </div>
