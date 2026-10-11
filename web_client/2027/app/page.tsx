@@ -623,7 +623,7 @@ function DormantHome() {
         />
       </section>
 
-      {/* About */}
+      {/* About Test*/}
       {/* <Section id="about" index="01" eyebrow="About">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-muted-foreground text-sm leading-relaxed md:text-base">
