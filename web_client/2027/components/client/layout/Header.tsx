@@ -15,7 +15,7 @@ import { withBasePath } from "@/lib/utils";
 
 // ---- Desktop dropdown styling (Base UI NavigationMenu) ----
 const triggerClassName =
-  "type-body-s flex h-9 items-center gap-1 rounded-full px-3 text-brand-text/80 transition-colors select-none hover:bg-white/10 hover:text-brand-text data-popup-open:bg-white/10 data-popup-open:text-brand-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-accent";
+  "type-body font-bold flex h-9 items-center gap-1 rounded-full px-3 text-brand-text/80 transition-colors select-none hover:bg-white/10 hover:text-brand-text data-popup-open:bg-white/10 data-popup-open:text-brand-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-accent";
 
 const contentClassName =
   "h-full w-[calc(100vw-40px)] p-2 min-[500px]:w-max min-[500px]:min-w-[230px] " +
@@ -268,7 +268,7 @@ export default function Header() {
                           return null;
                         return (
                           <div key={item.href} className="mb-4">
-                            <p className="type-caption-s-bold text-brand-secondary mb-2 px-2 tracking-wider uppercase">
+                            <p className="type-caption-s-bold text-brand-accent mb-2 px-2 tracking-wider uppercase">
                               {item.label}
                             </p>
                             <div className="flex flex-col gap-0.5">

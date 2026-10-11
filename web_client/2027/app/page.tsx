@@ -311,7 +311,7 @@ function DormantHome() {
           style={{ y: skyY }}
         >
           <Image
-            src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/BG%20-%20SKY.webp"
+            src="/2027_images/landscape_main_art_airashi/background_sky.webp"
             alt=""
             fill
             priority
@@ -328,7 +328,7 @@ function DormantHome() {
           }}
         >
           <Image
-            src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/BG%20-%20HOUSE.webp"
+            src="/2027_images/landscape_main_art_airashi/background_house.webp"
             alt=""
             fill
             sizes="140vw"
@@ -344,7 +344,7 @@ function DormantHome() {
           }}
         >
           <Image
-            src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/BG%20-%20PLANTS.webp"
+            src="/2027_images/landscape_main_art_airashi/background_plants.webp"
             alt=""
             fill
             sizes="140vw"
@@ -369,10 +369,10 @@ function DormantHome() {
             <picture className="absolute inset-0">
               <source
                 media="(max-width: 767px)"
-                srcSet="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20SEAN%20AND%20AMINAH%20Mobile.webp"
+                srcSet="/2027_images/landscape_main_art_airashi/character_sean_and_aminah_mobile.webp"
               />
               <Image
-                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20SEAN%20AND%20AMINAH.webp"
+                src="/2027_images/landscape_main_art_airashi/character_sean_and_aminah.webp"
                 alt=""
                 fill
                 sizes="100vw"
@@ -382,10 +382,10 @@ function DormantHome() {
             <picture className="absolute bottom-0 left-[4%] aspect-[1.19] w-[26%] md:inset-0 md:aspect-auto md:w-full">
               <source
                 media="(max-width: 767px)"
-                srcSet="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20THE%20RAT%20Mobile.webp"
+                srcSet="/2027_images/landscape_main_art_airashi/character_the_rat_mobile.webp"
               />
               <Image
-                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20THE%20RAT.webp"
+                src="/2027_images/landscape_main_art_airashi/character_the_rat.webp"
                 alt=""
                 fill
                 sizes="100vw"
@@ -420,7 +420,7 @@ function DormantHome() {
           >
             <div className="flex w-full items-center justify-center gap-[3%] md:justify-start">
               <Image
-                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Tinyverse.png"
+                src="/2027_images/landscape_main_art_airashi/tinyverse.png"
                 alt=""
                 width={2026}
                 height={654}
@@ -429,7 +429,7 @@ function DormantHome() {
                 className="h-auto w-[48%]"
               />
               <Image
-                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Garden.png"
+                src="/2027_images/landscape_main_art_airashi/garden.png"
                 alt=""
                 width={1658}
                 height={536}
@@ -439,7 +439,7 @@ function DormantHome() {
               />
             </div>
             <Image
-              src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Date.png"
+              src="/2027_images/landscape_main_art_airashi/date.png"
               alt="10th–11th July 2027"
               width={2200}
               height={970}
@@ -461,7 +461,7 @@ function DormantHome() {
         >
           <div className="relative aspect-[1707/2011] w-full">
             <Image
-              src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Background_Board.png"
+              src="/2027_images/landscape_main_art_airashi/background_board.png"
               alt=""
               fill
               priority
@@ -479,7 +479,7 @@ function DormantHome() {
             >
               <div className="flex w-full flex-1 items-center justify-center gap-[3%]">
                 <Image
-                  src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Tinyverse.png"
+                  src="/2027_images/landscape_main_art_airashi/tinyverse.png"
                   alt=""
                   width={2026}
                   height={654}
@@ -487,7 +487,7 @@ function DormantHome() {
                   className="h-auto w-[52%] drop-shadow-[0_2px_5px_rgb(30_53_25_/_25%)]"
                 />
                 <Image
-                  src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Garden.png"
+                  src="/2027_images/landscape_main_art_airashi/garden.png"
                   alt=""
                   width={1658}
                   height={536}
@@ -496,7 +496,7 @@ function DormantHome() {
                 />
               </div>
               <Image
-                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Date.png"
+                src="/2027_images/landscape_main_art_airashi/date.png"
                 alt="10th–11th July 2027"
                 width={2200}
                 height={970}

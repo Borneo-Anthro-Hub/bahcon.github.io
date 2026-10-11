@@ -130,9 +130,9 @@ function CarouselDots() {
 
 function GuidelineCard({ g }: { g: (typeof guidelines)[number] }) {
   return (
-    <div className="border-border bg-card group hover:border-brand-accent/50 overflow-hidden rounded border shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+    <div className="group overflow-hidden rounded-lg border-2 border-dotted border-[#704323] bg-[#a76539] p-1.5 shadow-[0_4px_0_#704323,0_8px_14px_rgb(0_0_0_/_0.14)] transition-all duration-300">
       {g.image ? (
-        <div className="from-brand-subtle/70 via-muted to-brand-subtle/40 relative aspect-square w-full bg-linear-to-br">
+        <div className="relative aspect-square w-full border border-[#704323]/40 bg-[#f3e4c5]">
           <Image
             src={withBasePath(g.image)}
             alt={g.title}
@@ -142,21 +142,21 @@ function GuidelineCard({ g }: { g: (typeof guidelines)[number] }) {
           />
         </div>
       ) : (
-        <div className="from-brand-subtle/70 via-muted to-brand-subtle/40 relative aspect-square w-full bg-linear-to-br">
+        <div className="relative aspect-square w-full border border-[#704323]/40 bg-[#f3e4c5]">
           <PlaceholderImage />
         </div>
       )}
-      <div className="from-brand-subtle/50 via-card to-card relative flex items-start gap-3 overflow-hidden bg-linear-to-br p-4">
+      <div className="relative mt-1.5 flex h-full items-start gap-3 overflow-hidden border border-[#704323]/40 bg-linear-to-br from-[#e3b77f] via-[#cf9258] to-[#dfad72] p-4 text-[#3f2a1a]">
         <span
           aria-hidden="true"
-          className="bg-brand-accent/10 pointer-events-none absolute -top-8 -right-8 size-24 rounded-full blur-2xl"
+          className="pointer-events-none absolute -top-8 -right-8 size-24 rounded-full bg-[#fff0c7]/35 blur-2xl"
         />
-        <span className="border-border text-muted-foreground relative mt-0.5 shrink-0 border px-1.5 py-0.5 font-mono text-[10px]">
+        <span className="relative mt-0.5 shrink-0 border border-dotted border-[#704323] bg-[#f4dfb9] px-1.5 py-0.5 font-mono text-[10px] text-[#50331e]">
           {String(g.rule).padStart(2, "0")}
         </span>
         <div className="relative">
           <p className="type-body-l-semibold">{g.title}</p>
-          <p className="type-body-s text-muted-foreground mt-1">{g.text}</p>
+          <p className="type-body-s mt-1 text-[#503b2a]">{g.text}</p>
         </div>
       </div>
     </div>
