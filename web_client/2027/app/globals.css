@@ -175,6 +175,48 @@
   pointer-events: none;
 }
 
+.dormant-sky-layer {
+  mask-image: linear-gradient(to bottom, transparent, black 18%);
+}
+
+.dormant-hero-glow {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(169 216 143 / 18%) 48%,
+    rgb(169 216 143 / 54%) 100%
+  );
+}
+
+.dormant-hero-glow::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgb(169 216 143 / 55%),
+    rgb(255 237 143 / 95%) 50%,
+    rgb(169 216 143 / 55%)
+  );
+  box-shadow:
+    0 0 8px 2px rgb(217 239 145 / 70%),
+    0 0 24px 8px rgb(130 190 91 / 35%);
+  content: "";
+}
+
+@media (max-width: 767px) {
+  .dormant-sky-layer {
+    mask-image: linear-gradient(
+      to bottom,
+      black 0%,
+      black 58%,
+      transparent 100%
+    );
+  }
+}
+
 /* -----------------------------------------------------------------------------
    REDUCED MOTION — respect users who prefer static, non-animated interfaces.
    ----------------------------------------------------------------------------- */

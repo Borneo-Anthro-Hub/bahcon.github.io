@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, FileText, Moon, Send, Shield, Users } from "lucide-react";
+import Image from "next/image";
+import { motion, useReducedMotion } from "motion/react";
+import { ArrowRight, FileText, Send, Shield, Users } from "lucide-react";
 import Section from "@/components/server/layout/Section";
 import PlaceholderImage from "@/components/server/home/PlaceholderImage";
 import HomeCta from "@/components/client/home/HomeCta";
@@ -16,8 +18,8 @@ import { useSiteState } from "@/components/client/SiteStateProvider";
 const BRAND_NAME = "Borneo Anthro Hub";
 const BRAND_TAGLINE = "Where the wild meets wonderful";
 const BRAND_LOCATION = "Kota Kinabalu · Sabah";
-const EVENT_DAY_RANGE = "29 – 30";
-const EVENT_MONTH_YEAR = "February 2027";
+const EVENT_DAY_RANGE = "10 – 11";
+const EVENT_MONTH_YEAR = "July 2027";
 
 // ---------------------------------------------------------------------------
 // Data
@@ -215,24 +217,6 @@ function SignpostGroup({
 // Dormant landing (no theme — evergreen only)
 // ---------------------------------------------------------------------------
 
-/** Decorative paw-print used as a soft watermark on the dormant hero. */
-function PawPrint({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 64 64"
-      fill="currentColor"
-      aria-hidden="true"
-      className={className}
-    >
-      <ellipse cx="32" cy="42" rx="12" ry="10" />
-      <ellipse cx="14" cy="25" rx="5" ry="7" transform="rotate(-22 14 25)" />
-      <ellipse cx="25" cy="17" rx="5" ry="7" transform="rotate(-8 25 17)" />
-      <ellipse cx="39" cy="17" rx="5" ry="7" transform="rotate(8 39 17)" />
-      <ellipse cx="50" cy="25" rx="5" ry="7" transform="rotate(22 50 25)" />
-    </svg>
-  );
-}
-
 /** A small "at a glance" fact chip used in the dormant About section. */
 function FactChip({ children }: { children: React.ReactNode }) {
   return (
@@ -279,103 +263,252 @@ function PolicyCard({
 }
 
 function DormantHome() {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <div className="flex flex-1 flex-col">
-      {/* ================================================================ */}
-      {/* HERO — immersive "jungle at rest" scene                          */}
-      {/* ================================================================ */}
-      <section className="border-brand-surface/20 relative overflow-hidden border-b px-4 pt-14 pb-16 md:px-8 md:pt-20 md:pb-20">
-        {/* Layered jungle-dusk wash */}
+      <section className="border-brand-surface/20 relative isolate min-h-[max(70svh,32rem)] overflow-hidden border-b md:min-h-[calc(90svh-4.25rem)] lg:min-h-[calc(100svh-4.25rem)]">
+        <h1 className="sr-only">Tinyverse Garden</h1>
         <div
           aria-hidden="true"
-          className="from-brand-surface via-brand-bg to-brand-bg absolute inset-0 bg-linear-to-b"
+          className="absolute inset-0 bg-linear-to-b from-[#78a7e8] via-[#a8e1f5] to-[#a7d98f]"
         />
-        {/* Soft sun glow + coral ground light */}
+        <motion.div
+          aria-hidden="true"
+          className="dormant-sky-layer absolute bottom-0 left-1/2 aspect-3960/2160 w-[140vw] max-w-none -translate-x-1/2 max-md:top-0 max-md:right-0 max-md:bottom-0 max-md:left-0 max-md:aspect-auto max-md:w-full max-md:translate-x-0 md:w-[120vw] lg:left-0 lg:w-full lg:translate-x-0"
+          animate={
+            prefersReducedMotion
+              ? undefined
+              : { scale: [1, 1.015, 1], y: [0, -3, 0] }
+          }
+          transition={
+            prefersReducedMotion
+              ? undefined
+              : { duration: 28, repeat: Infinity, ease: "easeInOut" }
+          }
+        >
+          <Image
+            src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/BG%20-%20SKY.webp"
+            alt=""
+            fill
+            priority
+            sizes="140vw"
+            className="object-contain object-bottom max-md:object-cover max-md:object-[center_40%]"
+          />
+        </motion.div>
         <div
           aria-hidden="true"
-          className="animate-glow-pulse bg-brand-accent/30 absolute -top-28 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full blur-3xl md:h-112 md:w-md"
-        />
-        <div
-          aria-hidden="true"
-          className="bg-brand-secondary/25 absolute -bottom-32 -left-24 h-72 w-72 rounded-full blur-3xl"
-        />
-        {/* Film grain */}
-        <div aria-hidden="true" className="noise-overlay absolute inset-0" />
-        {/* Drifting paw prints */}
-        <PawPrint className="text-brand-accent/25 animate-float absolute top-8 right-4 w-24 rotate-12 md:right-12 md:w-36" />
-        <PawPrint className="text-brand-text/10 animate-float-slow absolute bottom-6 left-4 w-28 -rotate-12 md:left-12 md:w-44" />
-        <PawPrint className="text-brand-secondary/20 animate-float-slow absolute top-1/3 left-1/4 hidden w-20 -rotate-6 md:block" />
-
-        <div className="relative mx-auto flex max-w-2xl flex-col items-center text-center">
-          {/* Eyebrow chip */}
-          <div className="animate-fade-up border-brand-text/20 mb-6 inline-flex items-center gap-2 rounded-full border bg-white/5 px-4 py-1.5 backdrop-blur-sm">
-            <span
-              className="bg-brand-accent h-1.5 w-1.5 rounded-full"
-              aria-hidden="true"
-            />
-            <p className="text-brand-text/90 font-mono text-[11px] tracking-[0.25em] uppercase">
-              {BRAND_LOCATION}
-            </p>
-          </div>
-
-          {/* Title + tagline */}
-          <h1 className="font-display text-brand-text animate-fade-up text-5xl leading-[1.05] drop-shadow-sm [animation-delay:80ms] md:text-7xl">
-            Borneo <span className="text-brand-accent">Anthro</span> Hub
-          </h1>
-          <p className="font-heading text-brand-text/80 animate-fade-up mt-4 text-lg [animation-delay:160ms] md:text-xl">
-            {BRAND_TAGLINE}
-          </p>
-
-          {/* Status card — frosted glass over the dusk scene */}
-          <div className="animate-fade-up relative mt-10 w-full max-w-md [animation-delay:240ms]">
-            <div className="border-brand-text/15 shadow-brand-surface/40 rounded-3xl border bg-white/10 p-6 text-center shadow-2xl backdrop-blur-md md:p-8">
-              <span className="border-brand-accent/40 bg-brand-accent/15 text-brand-accent inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-bold tracking-[0.2em] uppercase">
-                <span
-                  className="bg-brand-accent h-1.5 w-1.5 animate-pulse rounded-full"
-                  aria-hidden="true"
-                />
-                Between events
-              </span>
-
-              <div className="text-brand-accent bg-brand-accent/15 relative mx-auto mt-5 mb-4 flex h-12 w-12 items-center justify-center rounded-full">
-                <Moon className="h-6 w-6" />
-                <span className="text-brand-text/70 absolute -top-1 -right-2 font-mono text-[10px]">
-                  zzz
-                </span>
-              </div>
-
-              <h2 className="font-heading text-brand-text text-2xl md:text-3xl">
-                The garden&rsquo;s resting for now
-              </h2>
-              <p className="text-brand-text/75 mx-auto mt-2 max-w-sm text-sm leading-relaxed">
-                We&rsquo;re between events &mdash; stay tuned for our next
-                gathering in Kota Kinabalu.
-              </p>
-
-              {/* <div className="mt-6 flex justify-center">
-                <a
-                  href="mailto:admin@borneoanthrohub.com?subject=Notify me when BAH wakes up"
-                  className="font-caption text-brand-surface bg-brand-accent hover:bg-brand-hover shadow-brand-accent/25 focus-visible:ring-brand-accent inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-bold tracking-wide uppercase shadow-lg transition-all duration-300 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-                >
-                  Notify me
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-              </div> */}
-            </div>
-          </div>
-
-          {/* Scroll cue */}
-          <div className="animate-fade-up text-brand-text/50 mt-12 hidden flex-col items-center gap-2 [animation-delay:320ms] md:flex">
-            <span className="font-mono text-[10px] tracking-[0.35em] uppercase">
-              Scroll to explore
-            </span>
-            <span className="from-brand-text/60 h-10 w-px bg-linear-to-b to-transparent" />
-          </div>
+          className="absolute bottom-0 left-1/2 z-10 mx-auto aspect-3960/2160 w-[140vw] max-w-none -translate-x-1/2 md:w-[120vw] lg:left-0 lg:w-full lg:translate-x-0"
+          style={{
+            maskImage: "linear-gradient(to bottom, transparent, black 18%)",
+          }}
+        >
+          <Image
+            src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/BG%20-%20HOUSE.webp"
+            alt=""
+            fill
+            sizes="140vw"
+            className="object-contain object-bottom"
+          />
         </div>
+        <motion.div
+          aria-hidden="true"
+          className="absolute bottom-0 left-1/2 z-20 mx-auto aspect-3960/2160 w-[140vw] max-w-none -translate-x-1/2 md:w-[120vw] lg:left-0 lg:w-full lg:translate-x-0"
+          style={{
+            maskImage: "linear-gradient(to bottom, transparent, black 18%)",
+          }}
+          animate={prefersReducedMotion ? undefined : { y: [0, -3, 0] }}
+          transition={
+            prefersReducedMotion
+              ? undefined
+              : { duration: 10, repeat: Infinity, ease: "easeInOut" }
+          }
+        >
+          <Image
+            src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/BG%20-%20PLANTS.webp"
+            alt=""
+            fill
+            sizes="140vw"
+            className="object-contain object-bottom"
+          />
+        </motion.div>
+        <motion.div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-30 mx-auto aspect-[1.43] w-full md:aspect-3960/2160"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <motion.picture
+            className="absolute inset-0"
+            animate={prefersReducedMotion ? undefined : { y: [0, -4, 0] }}
+            transition={
+              prefersReducedMotion
+                ? undefined
+                : { duration: 8, repeat: Infinity, ease: "easeInOut" }
+            }
+          >
+            <source
+              media="(max-width: 767px)"
+              srcSet="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20SEAN%20AND%20AMINAH%20Mobile.webp"
+            />
+            <Image
+              src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20SEAN%20AND%20AMINAH.webp"
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-contain object-bottom"
+            />
+          </motion.picture>
+          <picture className="absolute bottom-0 left-[4%] aspect-[1.19] w-[26%] md:inset-0 md:aspect-auto md:w-full">
+            <source
+              media="(max-width: 767px)"
+              srcSet="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20THE%20RAT%20Mobile.webp"
+            />
+            <Image
+              src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/CHAR%20-%20THE%20RAT.webp"
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-contain object-bottom"
+            />
+          </picture>
+        </motion.div>
+        <motion.div
+          aria-hidden="true"
+          className="absolute inset-0 z-40 bg-linear-to-b from-[#dff5ff]/15 via-[#7ccfe9]/5 to-[#0b261d]/30"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute top-8 left-1/2 z-40 h-48 w-48 -translate-x-1/2 rounded-full bg-[#fff4c7]/30 blur-3xl md:h-72 md:w-72"
+        />
+        <div
+          aria-hidden="true"
+          className="noise-overlay absolute inset-0 z-40 opacity-20"
+        />
+
+        <motion.div
+          className="absolute top-[6%] left-[4%] z-[45] hidden w-[min(60vw,920px)] md:block"
+          initial={prefersReducedMotion ? false : { y: 18, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <motion.div
+            className="flex w-full flex-col items-center gap-2 md:items-start md:gap-3"
+            animate={
+              prefersReducedMotion
+                ? undefined
+                : { y: [0, -5, 0], rotate: [0, 0.3, 0] }
+            }
+            transition={
+              prefersReducedMotion
+                ? undefined
+                : { duration: 8, repeat: Infinity, ease: "easeInOut" }
+            }
+          >
+            <div className="flex w-full items-center justify-center gap-[3%] md:justify-start">
+              <Image
+                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Tinyverse.svg"
+                alt=""
+                width={2026}
+                height={654}
+                priority
+                sizes="(max-width: 767px) 45vw, 29vw"
+                className="h-auto w-[48%]"
+              />
+              <Image
+                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Garden.svg"
+                alt=""
+                width={1658}
+                height={536}
+                priority
+                sizes="(max-width: 767px) 39vw, 25vw"
+                className="h-auto w-[42%]"
+              />
+            </div>
+            <Image
+              src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Date.svg"
+              alt="10th–11th July 2027"
+              width={2200}
+              height={970}
+              priority
+              sizes="(max-width: 767px) 48vw, 26vw"
+              className="h-auto w-[52%] max-w-[28rem] md:ml-[18%]"
+            />
+          </motion.div>
+        </motion.div>
+        <motion.div
+          className="absolute top-[-13%] left-1/2 z-[45] w-[min(84vw,340px)] -translate-x-1/2 md:hidden"
+          initial={prefersReducedMotion ? false : { y: 18, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <motion.div
+            className="relative aspect-[1707/2011] w-full"
+            animate={
+              prefersReducedMotion
+                ? undefined
+                : { y: [0, -5, 0], rotate: [0, 0.5, 0, -0.5, 0] }
+            }
+            transition={
+              prefersReducedMotion
+                ? undefined
+                : { duration: 7, repeat: Infinity, ease: "easeInOut" }
+            }
+          >
+            <Image
+              src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Background_Board.svg"
+              alt=""
+              fill
+              priority
+              sizes="(max-width: 767px) min(84vw, 340px)"
+              className="object-contain"
+            />
+            <div className="absolute top-[55%] left-[-8%] flex h-[45%] w-[116%] flex-col items-center justify-center gap-[3%]">
+              <div className="flex w-full flex-1 items-center justify-center gap-[3%]">
+                <Image
+                  src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Tinyverse.svg"
+                  alt=""
+                  width={2026}
+                  height={654}
+                  priority
+                  className="h-auto w-[52%] drop-shadow-[0_2px_5px_rgb(30_53_25_/_25%)]"
+                />
+                <Image
+                  src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Garden.svg"
+                  alt=""
+                  width={1658}
+                  height={536}
+                  priority
+                  className="h-auto w-[44%] drop-shadow-[0_2px_5px_rgb(30_53_25_/_25%)]"
+                />
+              </div>
+              <Image
+                src="/2027_images/Landscape%20Main%20Art%20-%20Airashi/Date.svg"
+                alt="10th–11th July 2027"
+                width={2200}
+                height={970}
+                priority
+                className="h-auto w-[58%] drop-shadow-[0_2px_5px_rgb(30_53_25_/_25%)]"
+              />
+            </div>
+          </motion.div>
+        </motion.div>
+        <motion.div
+          aria-hidden="true"
+          className="dormant-hero-glow pointer-events-none absolute inset-x-0 bottom-0 z-50 h-16"
+          animate={
+            prefersReducedMotion ? undefined : { opacity: [0.72, 1, 0.72] }
+          }
+          transition={
+            prefersReducedMotion
+              ? undefined
+              : { duration: 4.5, repeat: Infinity, ease: "easeInOut" }
+          }
+        />
       </section>
 
       {/* About */}
-      <Section id="about" index="01" eyebrow="About">
+      {/* <Section id="about" index="01" eyebrow="About">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-muted-foreground text-sm leading-relaxed md:text-base">
             Borneo Anthro Hub (BAH) is a home-grown celebration of the anthro
@@ -392,10 +525,10 @@ function DormantHome() {
             <PillLink label="About Us" href="/about" />
           </div>
         </div>
-      </Section>
+      </Section> */}
 
       {/* Get involved */}
-      <Section id="get-involved" index="02" eyebrow="Get Involved">
+      {/* <Section id="get-involved" index="02" eyebrow="Get Involved">
         <div className="border-brand-accent/30 from-brand-subtle relative mx-auto max-w-2xl overflow-hidden rounded-2xl border bg-linear-to-br via-white to-white p-6 text-center md:p-8">
           <div
             aria-hidden="true"
@@ -413,21 +546,12 @@ function DormantHome() {
               crew recruitment opens, there&rsquo;s a place for you &mdash; no
               prior experience needed, just a willingness to help.
             </p>
-            {/* <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-              <PillLink label="Volunteer" href="/contribution" />
-              <a
-                href="mailto:admin@borneoanthrohub.com?subject=Recruitment - keep me posted"
-                className="font-caption text-brand-surface hover:bg-brand-surface hover:text-brand-text border-brand-surface/30 inline-flex items-center rounded-full border px-5 py-2 text-sm font-bold tracking-wide uppercase transition-colors"
-              >
-                Keep me posted
-              </a>
-            </div> */}
           </div>
         </div>
-      </Section>
+      </Section> */}
 
       {/* Policies */}
-      <Section id="policies" index="03" eyebrow="Policies">
+      {/* <Section id="policies" index="03" eyebrow="Policies">
         <p className="text-muted-foreground mx-auto mb-8 max-w-lg text-center text-sm leading-relaxed">
           A safe, inclusive, and welcoming experience is at the heart of BAH.
           Please take a moment to read our community guidelines.
@@ -446,10 +570,10 @@ function DormantHome() {
             href="/terms-and-conditions"
           />
         </div>
-      </Section>
+      </Section> */}
 
       {/* Stay connected */}
-      <Section id="connect" index="04" eyebrow="Stay Connected" noBorder>
+      {/* <Section id="connect" index="04" eyebrow="Stay Connected" noBorder>
         <div className="border-border bg-card mx-auto max-w-lg rounded-2xl border p-6 text-center md:p-8">
           <span className="bg-brand-subtle text-brand-surface mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full">
             <Send className="h-5 w-5" />
@@ -471,7 +595,7 @@ function DormantHome() {
             </a>
           </div>
         </div>
-      </Section>
+      </Section> */}
     </div>
   );
 }
