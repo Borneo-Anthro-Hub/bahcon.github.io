@@ -37,6 +37,24 @@ const EVENT_DAY_RANGE = "10 – 11";
 const EVENT_MONTH_YEAR = "July 2027";
 const ANIMATION_PREFERENCE_KEY = "bah-2027-hero-animations";
 const ANIMATION_PREFERENCE_CHANGE_EVENT = "bah-animation-preference-change";
+const MOBILE_HERO_QUERY = "(max-width: 767px)";
+
+function subscribeToMobileHeroViewport(onChange: () => void) {
+  if (typeof window === "undefined") {
+    return () => {};
+  }
+
+  const mediaQuery = window.matchMedia(MOBILE_HERO_QUERY);
+  mediaQuery.addEventListener("change", onChange);
+  return () => mediaQuery.removeEventListener("change", onChange);
+}
+
+function isMobileHeroViewport() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia(MOBILE_HERO_QUERY).matches
+  );
+}
 
 function getAnimationPreference(): boolean | null {
   if (typeof window === "undefined") {
@@ -322,6 +340,11 @@ function DormantHome() {
   );
   const animationsEnabled =
     animationOverride ?? savedAnimationPreference ?? !prefersReducedMotion;
+  const isMobileViewport = useSyncExternalStore(
+    subscribeToMobileHeroViewport,
+    isMobileHeroViewport,
+    () => false,
+  );
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -330,22 +353,22 @@ function DormantHome() {
   const skyY = useTransform(
     scrollYProgress,
     [0, 1],
-    animationsEnabled ? [0, 24] : [0, 0],
+    animationsEnabled && !isMobileViewport ? [0, 24] : [0, 0],
   );
   const houseY = useTransform(
     scrollYProgress,
     [0, 1],
-    animationsEnabled ? [0, 56] : [0, 0],
+    animationsEnabled ? [0, isMobileViewport ? 24 : 56] : [0, 0],
   );
   const plantsY = useTransform(
     scrollYProgress,
     [0, 1],
-    animationsEnabled ? [0, 88] : [0, 0],
+    animationsEnabled ? [0, isMobileViewport ? 40 : 88] : [0, 0],
   );
   const boardY = useTransform(
     scrollYProgress,
     [0, 1],
-    animationsEnabled ? [0, 72] : [0, 0],
+    animationsEnabled && isMobileViewport ? [0, 32] : [0, 0],
   );
 
   return (
@@ -379,7 +402,7 @@ function DormantHome() {
       </button>
       <section
         ref={heroRef}
-        className={`border-brand-surface/20 relative isolate min-h-[max(70svh,32rem)] overflow-hidden border-b md:min-h-[calc(90svh-4.25rem)] lg:min-h-[calc(100svh-4.25rem)] ${animationsEnabled ? "" : "animations-paused"}`}
+        className={`border-brand-surface/20 relative isolate min-h-[max(85svh,40rem)] overflow-hidden border-b md:min-h-[calc(90svh-4.25rem)] lg:min-h-[calc(100svh-4.25rem)] ${animationsEnabled ? "" : "animations-paused"}`}
       >
         <h1 className="sr-only">Tinyverse Garden</h1>
         <div
@@ -405,10 +428,7 @@ function DormantHome() {
         <motion.div
           aria-hidden="true"
           className="absolute bottom-0 left-1/2 z-10 mx-auto aspect-3960/2160 w-[140vw] max-w-none -translate-x-1/2 md:w-[120vw] lg:left-0 lg:w-full lg:translate-x-0"
-          style={{
-            maskImage: "linear-gradient(to bottom, transparent, black 18%)",
-            y: houseY,
-          }}
+          style={{ y: houseY }}
         >
           <Image
             src={withBasePath(
@@ -418,15 +438,15 @@ function DormantHome() {
             fill
             sizes="140vw"
             className="object-contain object-bottom"
+            style={{
+              maskImage: "linear-gradient(to bottom, transparent, black 18%)",
+            }}
           />
         </motion.div>
         <motion.div
           aria-hidden="true"
           className="absolute bottom-0 left-1/2 z-20 mx-auto aspect-3960/2160 w-[140vw] max-w-none -translate-x-1/2 md:w-[120vw] lg:left-0 lg:w-full lg:translate-x-0"
-          style={{
-            maskImage: "linear-gradient(to bottom, transparent, black 18%)",
-            y: plantsY,
-          }}
+          style={{ y: plantsY }}
         >
           <Image
             src={withBasePath(
@@ -436,10 +456,13 @@ function DormantHome() {
             fill
             sizes="140vw"
             className="object-contain object-bottom"
+            style={{
+              maskImage: "linear-gradient(to bottom, transparent, black 18%)",
+            }}
           />
         </motion.div>
         <motion.div
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-30 mx-auto aspect-[1.43] w-full md:aspect-3960/2160"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-50 mx-auto aspect-[1.43] w-full md:aspect-3960/2160"
           initial={animationsEnabled ? { opacity: 0, y: 18 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
@@ -448,9 +471,9 @@ function DormantHome() {
             className="absolute inset-0"
             animate={animationsEnabled ? { y: [0, -4, 0] } : { y: 0 }}
             transition={
-              !animationsEnabled
-                ? undefined
-                : { duration: 8, repeat: Infinity, ease: "easeInOut" }
+              animationsEnabled
+                ? { duration: 8, repeat: Infinity, ease: "easeInOut" }
+                : undefined
             }
           >
             <picture className="absolute inset-0">
@@ -500,7 +523,9 @@ function DormantHome() {
 
         <motion.div
           className="absolute top-[6%] left-[4%] z-[45] hidden w-[min(60vw,920px)] md:block"
-          initial={animationsEnabled ? { y: 18, scale: 0.98 } : false}
+          initial={
+            animationsEnabled ? { y: 18, scale: 0.98, opacity: 0 } : false
+          }
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
@@ -508,9 +533,9 @@ function DormantHome() {
             className="flex w-full flex-col items-center gap-2 md:items-start md:gap-3"
             animate={animationsEnabled ? { y: [0, -5, 0] } : { y: 0 }}
             transition={
-              !animationsEnabled
-                ? undefined
-                : { duration: 8, repeat: Infinity, ease: "easeInOut" }
+              animationsEnabled
+                ? { duration: 8, repeat: Infinity, ease: "easeInOut" }
+                : undefined
             }
           >
             <div className="flex w-full items-center justify-center gap-[3%] md:justify-start">
@@ -554,12 +579,14 @@ function DormantHome() {
           className="absolute top-[-13%] left-1/2 z-[45] w-[min(84vw,340px)] -translate-x-1/2 md:hidden"
           style={{ y: boardY }}
           animate={
-            animationsEnabled ? { rotate: [0, -1, 1, 0] } : { rotate: 0 }
+            animationsEnabled && isMobileViewport
+              ? { rotate: [0, -1, 1, 0] }
+              : { rotate: 0 }
           }
           transition={
-            !animationsEnabled
-              ? undefined
-              : { duration: 9, repeat: Infinity, ease: "easeInOut" }
+            animationsEnabled && isMobileViewport
+              ? { duration: 9, repeat: Infinity, ease: "easeInOut" }
+              : undefined
           }
         >
           <div className="relative aspect-[1707/2011] w-full">
@@ -573,16 +600,20 @@ function DormantHome() {
               sizes="(max-width: 767px) min(84vw, 340px)"
               className="object-contain"
             />
-            <motion.div
-              className="absolute top-[55%] left-[-8%] flex h-[45%] w-[116%] flex-col items-center justify-center gap-[3%]"
-              animate={animationsEnabled ? { y: [0, -4, 0] } : { y: 0 }}
-              transition={
-                !animationsEnabled
-                  ? undefined
-                  : { duration: 7, repeat: Infinity, ease: "easeInOut" }
-              }
-            >
-              <div className="flex w-full flex-1 items-center justify-center gap-[3%]">
+            <div className="absolute top-[55%] left-[-8%] flex h-[45%] w-[116%] flex-col items-center justify-center gap-[3%]">
+              <motion.div
+                className="flex w-full flex-1 items-center justify-center gap-[3%]"
+                animate={
+                  animationsEnabled && isMobileViewport
+                    ? { y: [0, -4, 0] }
+                    : { y: 0 }
+                }
+                transition={
+                  animationsEnabled && isMobileViewport
+                    ? { duration: 7, repeat: Infinity, ease: "easeInOut" }
+                    : undefined
+                }
+              >
                 <Image
                   src={withBasePath(
                     "/2027_images/landscape_main_art_airashi/tinyverse.png",
@@ -603,7 +634,7 @@ function DormantHome() {
                   priority
                   className="h-auto w-[44%] drop-shadow-[0_2px_5px_rgb(30_53_25_/_25%)]"
                 />
-              </div>
+              </motion.div>
               <Image
                 src={withBasePath(
                   "/2027_images/landscape_main_art_airashi/date.png",
@@ -614,12 +645,12 @@ function DormantHome() {
                 priority
                 className="h-auto w-[58%] drop-shadow-[0_2px_5px_rgb(30_53_25_/_25%)]"
               />
-            </motion.div>
+            </div>
           </div>
         </motion.div>
         <div
           aria-hidden="true"
-          className="dormant-hero-glow pointer-events-none absolute inset-x-0 bottom-0 z-50 h-16"
+          className="dormant-hero-glow pointer-events-none absolute inset-x-0 bottom-0 z-[60] h-16"
         />
       </section>
 
