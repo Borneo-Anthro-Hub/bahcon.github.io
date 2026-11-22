@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Borneo Anthro Hub 2027
 
-## Getting Started
+This Next.js app is exported as a static site and deployed to
+`https://bahcon.my/web_client/2027/` by the repository-level GitHub Actions
+workflow at `../../.github/workflows/deploy-pages.yml`. The workflow builds from
+this directory with `NEXT_BASE_PATH=/web_client/2027` and combines the export
+with the existing root site before publishing to GitHub Pages.
 
-First, run the development server:
+## Local development
+
+Install dependencies and start the development server from this directory:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). For a local static export
+at the site root, run `pnpm build` without setting `NEXT_BASE_PATH`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## GitHub Pages setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+In the repository's **Settings → Pages**, set the build and deployment source
+to **GitHub Actions**. Push to `main` or run the workflow manually from the
+Actions tab to publish the site. The workflow preserves the existing root page
+and deploys this app under `/web_client/2027/`. The copied workflow under this
+app's `.github/` directory is not run by GitHub Actions.
 
-## Learn More
+The Docker image serves the static export from its web root; it is intended to
+be used without a base path.
 
-To learn more about Next.js, take a look at the following resources:
+## Site configuration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Set these repository variables under **Settings → Secrets and variables →
+Actions → Variables** before deploying:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `SITE_THEME`: for example, `2027`.
+- `WEBSITE_STATE`: for example, `A`.
+- `NEXT_PUBLIC_TICKET_START`: the opening datetime with a timezone, for example
+  `2026-11-22T23:00:00+08:00`.
 
-## Deploy on Vercel
+The workflow requires all three values. They are baked into the static export,
+so changing them requires a new deployment. For local development, set these
+same variables in `.env.local` and restart the development server after editing
+it. These configuration values are public; do not use them to store secrets.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Ticket availability
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The registration page listens to the existing `bah_ticket/status` Firestore
+document in the `bah-ticket-status` project. Its `standard_soldout`,
+`sponsor_soldout`, and `s_sponsor_soldout` boolean fields control the Wanderer,
+Gardener, and Caretaker tiers respectively. The document must be readable by
+site visitors. The `bah_ticket/reg_link` document supplies HTTPS URL strings
+`std`, `s`, and `ss` for those same tiers. Both documents must be readable by
+site visitors. The registration links remain unavailable until the countdown
+has ended and the status and links have loaded.
+
+Set `NEXT_PUBLIC_TICKET_START` to the opening date and time with a timezone;
+replace the test date before launch. To test a one-minute countdown on each
+page load, set `NEXT_PUBLIC_TICKET_TEST_SECONDS=60` in `.env.local`. Remove or
+comment out that setting to use the opening date instead. The optional GitHub
+Actions variable of the same name also enables this override in deployed builds;
+leave it unset for the real launch.
+
+The countdown uses the 2026 site's internet time service. If the time, status,
+or links cannot be loaded, the page displays a warning. A browser countdown is
+not an access control: Firestore rules and the forms themselves must enforce
+any registration restrictions.
