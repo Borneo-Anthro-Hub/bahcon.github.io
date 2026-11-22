@@ -3,14 +3,12 @@ import { ThemeProvider } from "@/components/client/ThemeProvider";
 import { SiteStateProvider } from "@/components/client/SiteStateProvider";
 import { getActiveTheme, getActiveThemeKey } from "@/lib/theme/active-theme";
 import { getSiteState } from "@/lib/site-state/get-site-state";
+import { paletteToCssVars } from "@/lib/theme/palettes";
 import { themeToCssVars } from "@/lib/theme/themes";
+import { withBasePath } from "@/lib/utils";
 import "./globals.css";
 import Header from "@/components/client/layout/Header";
 import Footer from "@/components/client/layout/Footer";
-import { Inter } from "next/font/google";
-import { cn } from "@/lib/utils";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Borneo Anthro Hub 2027",
@@ -25,7 +23,15 @@ export default function RootLayout({
 }>) {
   const themeKey = getActiveThemeKey();
   const theme = getActiveTheme();
-  const cssVars = themeToCssVars(theme);
+  const homepageAssets = "/2027_images/new_themed_homepage_assets";
+  const cssVars = {
+    ...paletteToCssVars(),
+    ...themeToCssVars(theme),
+    "--homepage-map": `url("${withBasePath(`${homepageAssets}/map_background.svg`)}")`,
+    "--homepage-divider-1": `url("${withBasePath(`${homepageAssets}/1-divider.svg`)}")`,
+    "--homepage-banner": `url("${withBasePath(`${homepageAssets}/sub-section-banner-background.svg`)}")`,
+    "--homepage-divider-3": `url("${withBasePath(`${homepageAssets}/3-divider.svg`)}")`,
+  };
   const siteState = getSiteState();
 
   return (
@@ -33,13 +39,29 @@ export default function RootLayout({
       lang="en"
       data-theme={themeKey}
       style={cssVars as React.CSSProperties}
-      className={cn("h-full", "antialiased", "font-sans", inter.variable)}
+      className="h-full font-sans antialiased"
     >
-      {theme.fontUrl && (
-        <head>
-          <link rel="stylesheet" href={theme.fontUrl} />
-        </head>
-      )}
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        {theme.fontUrl && (
+          <>
+            <link
+              id="theme-font-link"
+              rel="stylesheet"
+              href={theme.fontUrl}
+              media="print"
+            />
+            <noscript>
+              <link rel="stylesheet" href={theme.fontUrl} />
+            </noscript>
+          </>
+        )}
+      </head>
       <body className="flex min-h-full flex-col">
         {/* Skip-to-content link for keyboard accessibility */}
         <a

@@ -1,2 +1,2 @@
-cd web_client/2027
+cd web_client/2027 || exit 1
 pnpm exec lint-staged

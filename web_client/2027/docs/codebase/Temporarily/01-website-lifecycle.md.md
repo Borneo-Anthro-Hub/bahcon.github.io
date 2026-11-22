@@ -12,14 +12,14 @@ Rather than deploying multiple versions of the website, the application operates
 
 # Website States
 
-| Code | Name                      | Description                                                                         |
-| ---- | ------------------------- | ----------------------------------------------------------------------------------- |
-| D    | Dormant                        | Default off-season website. Only evergreen content is available.                                           |
-| T    | Teaser                         | Convention theme is announced. "Coming Soon" landing with date, no convention details yet.                  |
-| A    | Announcement & Ticket Posting  | Convention website officially launches. Full theme content (venue, GOH, activities, travel) available.      |
-| TO   | Ticket Registration Opens      | Ticket registration period. Google Form link in 2027. (2028: embedded ticket sales.)                        |
-| RC   | Account Creation & Registration Close | Submissions period. Dealer and panel submission info pages are available.                             |
-| FIR  | Final Information Release      | Final attendee information is published including schedule and Dealer's Den layout.                         |
+| Code | Name                                  | Description                                                                                            |
+| ---- | ------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| D    | Dormant                               | Default off-season website. Only evergreen content is available.                                       |
+| T    | Teaser                                | Convention theme is announced. "Coming Soon" landing with date, no convention details yet.             |
+| A    | Announcement & Ticket Posting         | Convention website officially launches. Full theme content (venue, GOH, activities, travel) available. |
+| TO   | Ticket Registration Opens             | Ticket registration period. Google Form link in 2027. (2028: embedded ticket sales.)                   |
+| RC   | Account Creation & Registration Close | Submissions period. Dealer and panel submission info pages are available.                              |
+| FIR  | Final Information Release             | Final attendee information is published including schedule and Dealer's Den layout.                    |
 
 ---
 
@@ -86,6 +86,7 @@ Convention website officially launches.
 
 - Full yearly theme website
 - Activities
+- Ticket tier information (registration opens in Ticket Registration)
 
 ---
 
